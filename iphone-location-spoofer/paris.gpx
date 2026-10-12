@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fake location file for Xcode (Mac only). Change lat/lon to any place you like. -->
+<gpx version="1.1" creator="iphone-location-spoofer">
+  <wpt lat="48.8584" lon="2.2945">
+    <name>Eiffel Tower</name>
+  </wpt>
+</gpx>
