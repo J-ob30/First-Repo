@@ -40,6 +40,17 @@ This must run on *your own computer* — it can't run from the cloud.
 4. Pick a place from the menu. Open Apple Maps on your phone to check it worked!
 5. To go back to your real location, choose **r** in the menu (restarting the phone also resets it).
 
+## Windows shortcut (one double-click)
+
+Double-click **`Start Spoofer.bat`** in this folder. It opens the connection bridge
+(click **Yes** when Windows asks), waits 10 seconds, then shows the location menu.
+Leave the bridge window open while you use it.
+
+To put it on your desktop: right-click `Start Spoofer.bat` → **Show more options** →
+**Send to** → **Desktop (create shortcut)**.
+
+(It uses `py -3.13`, the Python version that works with the helper tool.)
+
 ## On the go with an iPad (your iPhone stays free)
 
 The idea: your **iPad stays at home** with a fake location, and it becomes the device
