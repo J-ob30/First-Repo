@@ -8,7 +8,6 @@ while the iPhone is plugged in with a cable.
 How to use: read README.md first, then run:  python3 spoof.py
 """
 
-import shutil
 import subprocess
 import sys
 
@@ -24,7 +23,8 @@ FAVORITES = {
 def run(args):
     """Run a pymobiledevice3 command and say whether it worked."""
     print("\nRunning: pymobiledevice3 " + " ".join(args))
-    result = subprocess.run(["pymobiledevice3", *args])
+    # Use the same Python that started this program, so the right copy of the tool is found.
+    result = subprocess.run([sys.executable, "-m", "pymobiledevice3", *args])
     if result.returncode == 0:
         print("Done!")
     else:
@@ -53,8 +53,11 @@ def ask_number(prompt, low, high):
 
 
 def main():
-    if shutil.which("pymobiledevice3") is None:
-        print("pymobiledevice3 isn't installed yet. Run:  python3 -m pip install -U pymobiledevice3")
+    try:
+        import pymobiledevice3  # noqa: F401  (just checking it's installed)
+    except ImportError:
+        print("pymobiledevice3 isn't installed for this Python yet. Run:")
+        print(f'  "{sys.executable}" -m pip install -U pymobiledevice3')
         sys.exit(1)
 
     while True:

@@ -68,6 +68,10 @@ that shares your location. Your iPhone goes anywhere and works normally.
 
 ## If something goes wrong
 
+- **Windows: "Microsoft Visual C++ 14.0 or greater is required"** → your Python is too new for the tool.
+  Install **Python 3.13** from python.org as well, then use `py -3.13` in place of `python` in every command,
+  e.g. `py -3.13 -m pip install -U pymobiledevice3` and `py -3.13 spoof.py`.
+
 - **"No device connected"** → unplug and replug, unlock the phone, tap Trust.
 - **Errors about "tunnel" or "RSD"** → make sure step 2 (the bridge window) is still running.
 - **"Developer disk image" errors** → run `pymobiledevice3 mounter auto-mount` again.
