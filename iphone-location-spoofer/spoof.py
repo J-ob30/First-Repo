@@ -20,24 +20,49 @@ FAVORITES = {
 }
 
 
-def run(args):
-    """Run a pymobiledevice3 command and say whether it worked."""
-    print("\nRunning: pymobiledevice3 " + " ".join(args))
+# On newer iPhones/iPads the fake location only lasts while the "set" command
+# keeps running, so we keep it running in the background here.
+current = None
+
+
+def tool(*args):
     # Use the same Python that started this program, so the right copy of the tool is found.
-    result = subprocess.run([sys.executable, "-m", "pymobiledevice3", *args])
-    if result.returncode == 0:
-        print("Done!")
-    else:
-        print("That didn't work. Check the 'If something goes wrong' part of README.md.")
+    return [sys.executable, "-m", "pymobiledevice3", *args]
+
+
+def stop_current():
+    """Stop holding the current fake location (the device goes back to its real one)."""
+    global current
+    if current is not None and current.poll() is None:
+        try:
+            current.communicate(input=b"\n", timeout=10)  # the tool stops when it gets ENTER
+        except subprocess.TimeoutExpired:
+            current.kill()
+    current = None
 
 
 def set_location(lat, lon):
+    global current
+    stop_current()
     # The "--" stops negative numbers (like -73.9) being read as options.
-    run(["developer", "dvt", "simulate-location", "set", "--", str(lat), str(lon)])
+    current = subprocess.Popen(
+        tool("developer", "dvt", "simulate-location", "set", "--", str(lat), str(lon)),
+        stdin=subprocess.PIPE,
+    )
+    try:
+        current.wait(timeout=15)  # if it stops on its own this quickly, something went wrong
+    except subprocess.TimeoutExpired:
+        print("\nDone! (Ignore any 'Press ENTER to exit' above - this program handles that.)")
+        print("KEEP THIS WINDOW OPEN - closing it puts your real location back.")
+    else:
+        current = None
+        print("That didn't work. Check the 'If something goes wrong' part of README.md.")
 
 
 def clear_location():
-    run(["developer", "dvt", "simulate-location", "clear"])
+    stop_current()
+    subprocess.run(tool("developer", "dvt", "simulate-location", "clear"))
+    print("Back to your real location.")
 
 
 def ask_number(prompt, low, high):
@@ -66,12 +91,12 @@ def main():
             print(f"  {key}. Go to {name}")
         print("  c. Type in my own place (latitude and longitude)")
         print("  r. Reset - go back to my real location")
-        print("  q. Quit")
+        print("  q. Quit (puts your real location back)")
         choice = input("Pick one: ").strip().lower()
 
         if choice in FAVORITES:
             name, lat, lon = FAVORITES[choice]
-            print(f"Moving your iPhone to {name}...")
+            print(f"Moving your device to {name}...")
             set_location(lat, lon)
         elif choice == "c":
             lat = ask_number("Latitude (between -90 and 90): ", -90, 90)
@@ -80,7 +105,8 @@ def main():
         elif choice == "r":
             clear_location()
         elif choice == "q":
-            print("Bye! Tip: pick 'r' before quitting if you want your real location back.")
+            stop_current()
+            print("Bye! Your real location is back.")
             break
         else:
             print("I didn't understand that - try again.")

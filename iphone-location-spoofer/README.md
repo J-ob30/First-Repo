@@ -38,7 +38,9 @@ This must run on *your own computer* — it can't run from the cloud.
    python3 spoof.py
    ```
 4. Pick a place from the menu. Open Apple Maps on your phone to check it worked!
-5. To go back to your real location, choose **r** in the menu (restarting the phone also resets it).
+5. **Keep the program window open.** On newer iPhones/iPads the fake location only lasts while
+   the program is running. Closing it (or choosing **q**) puts your real location back.
+6. To go back to your real location, choose **r** in the menu (restarting the phone also resets it).
 
 ## Windows shortcut (one double-click)
 
