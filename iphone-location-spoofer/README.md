@@ -40,6 +40,32 @@ This must run on *your own computer* — it can't run from the cloud.
 4. Pick a place from the menu. Open Apple Maps on your phone to check it worked!
 5. To go back to your real location, choose **r** in the menu (restarting the phone also resets it).
 
+## On the go with an iPad (your iPhone stays free)
+
+The idea: your **iPad stays at home** with a fake location, and it becomes the device
+that shares your location. Your iPhone goes anywhere and works normally.
+
+**Setting it up (once):**
+1. Make sure your iPad is signed into the **same Apple Account** as your iPhone.
+2. Do the "One-time setup" steps above, but with the **iPad** plugged in instead of the iPhone
+   (tap Trust, turn on Developer Mode on the iPad, run `pymobiledevice3 mounter auto-mount`).
+3. On the iPad, open the **Find My** app → **Me** tab → tap **Use this iPad as My Location**.
+   Now Messages and Find My show the iPad's location instead of the iPhone's.
+
+**Each day:**
+1. Plug the iPad into your computer and **unplug your iPhone** (so the program picks the iPad).
+2. Start the bridge window and run `python3 spoof.py` as usual, then pick your place.
+3. Leave the iPad plugged in, switched on, and connected to Wi-Fi. Leave the bridge window open too.
+4. Take your iPhone and go.
+
+**Important things to know:**
+- **Test it first.** Check your location from another device or ask a friend before relying on it.
+- If the **iPad restarts, runs out of battery, or loses Wi-Fi**, it may show its real location
+  (your home) or "No location found". Keep it charging.
+- If you ever tap **Use this iPhone as My Location** on your iPhone, sharing switches back to the iPhone.
+- If you want to change the fake place while you're out, you'd need to be at the computer,
+  so pick your place before you leave.
+
 ## If something goes wrong
 
 - **"No device connected"** → unplug and replug, unlock the phone, tap Trust.
